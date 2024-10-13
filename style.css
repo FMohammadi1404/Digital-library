@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,300;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,300;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+input.css-input{
+    border:none !important;
+    background-color:rgba(206, 205, 205, 0.199);
+    margin:3.5% auto;
+    border-radius: 25px;
+    padding: 2.7% 2.7% 2.7% 2.7%;
+    width: 67%;
+}
+
+button.css-btn{
+    border:none !important;
+    background-color: rgb(37, 37, 37);
+    border-color: rgb(37, 37, 37);
+    margin:3.5% auto;
+    border-radius: 25px;
+    padding: 2.7% 2.7% 2.7% 2.7%;
+    width: 67%;
+    border: none;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 25px;
+}
+
+label.remember{
+    align-items: center;
+    cursor: pointer;
+    margin:1% auto;
+    margin-bottom: 3%;
+    color:aliceblue;
+}
+
+p.remember{
+    align-items: center;
+    color: aliceblue;
+}
+
+.login-css{
+    width: 50%;
+    position: relative;
+    top: 9.5%;
+    bottom: 5%;
+}
+
+
+/* @media */
+
+@media screen and (min-width: 500px) and (max-width: 700px) {
+
+    input.css-input { 
+
+        font-size: 70%;  
+        width: 70%;             
+    }
+
+    button.css-btn{
+
+        font-size: 70%;   
+        width: 70%;           
+    }
+
+    label.remember{
+
+        font-size: 70%;   
+    }
+
+    p.remember{
+
+        font-size: 70%;
+    }
+
+    h2.hLogin{
+
+        font-size: 130%;
+    }
+
+}
+
+
+@media screen and (min-width: 701px) and (max-width: 1000px) {
+
+    input.css-input { 
+
+        font-size: 80%;
+        width: 80%;           
+    }
+
+    button.css-btn{
+
+        font-size: 80%;   
+        width: 80%;
+    }
+
+    label.remember{
+        
+        font-size: 90%;   
+    }
+
+    p.remember{
+
+        font-size: 90%;
+    }
+    
+    h2.hLogin{
+
+        font-size: 150%;
+    }
+}
+
+
+
+/* css for home.html **********  */
+html, body {
+    height: 100%;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.gfg {
+    height: 50px;
+    width: 50px;
+
+}
+
+.mynav {
+    color: #fff;
+}
+
+.mynav li a {
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    padding: 8px 5px;
+}
+
+.mynav li a.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mynav li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mynav li a i {
+    width: 25px;
+    text-align: center;
+}
+
+.notification-badge {
+    background-color: rgba(255, 255, 255, 0.7);
+    float: right;
+    color: #222;
+    font-size: 14px;
+    padding: 0px 8px;
+    border-radius: 2px;
+}
+
+
+/* css for myShelf.html, home.html, search.html */
+@media screen and (min-width: 300px) and (max-width: 1024px) {
+    
+    /* استایل دهی به دیو ستونی که تمام مشخصات کتاب در حال مطالعه در آن قرار می گیرد */
+    div.col.p-3.border.border-4.border-success.rounded{
+        font-size: 68%;
+        margin-bottom: 3%;
+    }
+     /* استایل دهی به دیو ستونی که تمام مشخصات کتاب خوانده شده در آن قرار می گیرد */
+     div.col.p-3.border.border-4.border-secondary.rounded{
+        font-size: 68%;
+        margin-bottom: 3%;      
+    }
+     /* استایل دهی به دیو ستونی که تمام مشخصات کتاب مورد علاقه در آن قرار می گیرد */
+     div.col.p-3.border.border-4.border-danger.rounded{
+        font-size: 68%;
+        margin-bottom: 3%;      
+    }
+     /* استایل دهی به دیو ستونی که تمام مشخصات کتاب مورد چالش در آن قرار می گیرد */
+     div.col.p-3.border.border-4.border-info.rounded{
+        font-size: 68%;
+        margin-bottom: 3%;      
+    }
+
+    /* استایل دهی به تصویر کل کتاب ها */
+    img.imgBook{
+        padding: 3%;
+    }
+
+
+    /* استایل دهی به دیو شامل تصویر کتاب های غیر چاش */
+    div.col.bookDivImg{
+        display: flex;      
+        justify-content: center;
+    }
+    /* استایل دهی به دیو شامل تصویر کتاب های چالش */
+    div.col.d-flex.justify-content-end{
+        display: flex;      
+        justify-content: center;
+    }
+
+
+    /* استایل دهی به عنوان بخش کتاب های در حال مطالعه در صفحه قفسه من */
+    h5.text-white.card-header.bg-success{
+        font-size: 80%;
+    }
+    /* استایل دهی به عنوان بخش کتاب های خوانده شده در صفحه قفسه من */
+    h5.text-white.card-header.bg-secondary{
+        font-size: 80%;
+    }
+    /* استایل دهی به عنوان بخش کتاب های مورد علاقه در صفحه قفسه من */
+    h5.text-white.card-header.bg-danger{
+        font-size: 80%;
+    }
+    /* استایل دهی به عنوان بخش کتاب های مورد چالش در صفحه قفسه من */
+    h5.text-white.card-header.bg-info{
+        font-size: 80%;
+    }
+
+
+    /* تنظیم اندازه المان های اصلی سلکت باکس و اینپوت و دکمه در قسمت چالش */
+    select.form-select{
+        width: 100%;
+        margin: 2%;
+        margin-right: 0%;
+    }
+    input.form-control{
+        margin: 2%;
+        margin-right: 0%;
+    }
+    button.btn.btn-primary{
+        width: 100%;
+        margin: 2%;
+        margin-right: 0%;
+    }
+
+}
+
+/* For home.html */
+@media screen and (min-width: 300px) and (max-width: 1440px){
+    label.form-check-label{
+        font-size: 75%;
+    } 
+    
+}
+
+
+
+
+
+
+/* @media screen and (width: 375px){
+    div.col.p-3.border.border-4.border-success.rounded{
+        width: 280.29px !important;
+        height: 283.83px !important;
+    }
+} */
+
+/* style="width: 15%; margin-right: 5%;" */
