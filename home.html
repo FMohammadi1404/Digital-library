@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width,
+                    initial-scale=1.0">
+        <title>Bootstrap5 Sidebar</title>
+        <link href=
+    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" 
+            rel="stylesheet"
+            integrity=
+    "sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" 
+            crossorigin="anonymous">
+        <link rel="stylesheet" 
+            href="style.css">
+        <link rel="stylesheet" href=
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            integrity=
+    "sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer" />
+
+        <!-- chart js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    </head>
+
+    <body dir="rtl" style="font-family: b yekan;" onload = "nowDate()" onbeforeunload = "totalDurationTime()" onunload = "exitPage()">
+
+        <div class="container-fluid p-0 d-flex" style="min-height: 100%;">
+            <div id="bdSidebar" 
+                class="d-flex flex-column 
+                        flex-shrink-0 
+                        p-0 bg-info
+                        text-white offcanvas-md offcanvas-start">
+                <a href="#" 
+                class="navbar-brand">
+                </a>
+
+                <div style="background-color: rgb(255,255,255,1); max-width: 100%; margin: 0; padding: 5%;">
+                    <center><img src="images/logo.png" style="max-width: 40%;"/></center>
+                </div>
+
+                <!-- <hr> -->
+                <ul class="mynav nav nav-pills flex-column mb-auto mt-5"  style="font-size: 1.5rem; font-family: b yekan;">
+                    <li class="nav-item mb-1">
+                        <a href="home.html">
+                            <i class="fa-solid fa-house"></i>
+                            &nbsp صفحه اصلی
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-1">
+                        <a href="myShelf.html">
+                            <i class="fa fa-book"></i>
+                            &nbsp قفسه من
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-1">
+                        <a href="search.html">
+                            <i class="fa fa-search"></i>
+                            &nbsp جستجو
+                        </a>
+                    </li>
+
+                </ul>
+                <hr>
+                <div class="d-flex">
+
+                    <i class="fa-solid fa-book  me-2"></i>
+                    <span>
+                        <h6 class="me-2">
+                            همه حقوق محفوظ است
+                        </h6>
+                    </span>
+                </div>
+            </div>
+
+            <div class="bg-light flex-fill">
+                <div class="p-4">
+                    <nav style="--bs-breadcrumb-divider:'>';font-size:14px">
+                        <ol class="breadcrumb" style="font-size: 1.1rem; font-family: b yekan;">
+                            <li class="breadcrumb-item">
+                                <i class="fa-solid fa-house"></i>
+                            </li>
+                            &nbsp;
+                            <li class="breadcrumb-item">صفحه اصلی</li>
+                        </ol>
+                    </nav>
+
+                    <div id = "parentWelcomeDiv" class = "d-flex justify-content-start">
+
+                    </div>
+
+
+                    <!-- منوی بالای صفحه -->
+                     <!-- description: این منو به دلیل نمایش داده نشدن سایدبار سمت راست صفحه در حالت موبایل قرار داده شد -->
+                    <nav class="navbar navbar-expand m-0 p-0">
+                        <div class="container-fluid m-0 p-0">
+                            <div class="collapse navbar-collapse justify-content-start m-0 p-0">
+                                <ul class="navbar-nav m-0 p-0" style="font-size: 100%;">
+                                    <li class="nav-item m-0 p-0">
+                                        <a class="nav-link text-success" href="./home.html">صفحه اصلی</a>
+                                    </li>
+                                    <li class="nav-item m-0 p-0">
+                                        <a class="nav-link text-danger" href="./myShelf.html">قفسه من</a>
+                                    </li>
+                                    <li class="nav-item m-0 p-0">
+                                        <a class="nav-link text-warning" href="./search.html">جستجو</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <hr />
+
+                    <br /><br />
+
+                    <!-- description: ایجاد المان هایی در صفحه برای نمایش کتاب ها با مشخصاتشان در صفحه اصلی -->
+                    <!-- row 1 -->
+                    <div class="row m-3">
+                        <!-- col 1 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="00" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="01" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="03">در حال مطالعه</label> &nbsp; <input type="checkbox" id="03" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "04" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="05">خوانده شده</label> &nbsp; <input type="checkbox" id="05" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="06">مورد علاقه</label> &nbsp; <input type="checkbox" id="06" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/0.pdf">
+                                        <img id="02" class="imgBook" src="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col 2 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="10" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="11" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="13">در حال مطالعه</label> &nbsp; <input type="checkbox" id="13" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "14" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="15">خوانده شده</label> &nbsp; <input type="checkbox" id="15" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="16">مورد علاقه</label> &nbsp; <input type="checkbox" id="16" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/1.pdf">
+                                        <img id="12" class="imgBook" src="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col 3 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="20" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="21" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="23">در حال مطالعه</label> &nbsp; <input type="checkbox" id="23" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "24" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="25">خوانده شده</label> &nbsp; <input type="checkbox" id="25" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="26">مورد علاقه</label> &nbsp; <input type="checkbox" id="26" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/2.pdf">
+                                        <img id="22" class="imgBook" src="" /> 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
+
+                    <!-- row 2 -->
+                    <div class="row m-3">
+                        <!-- col 1 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="30" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="31" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="33">در حال مطالعه</label> &nbsp; <input type="checkbox" id="33" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "34" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="35">خوانده شده</label> &nbsp; <input type="checkbox" id="35" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="36">مورد علاقه</label> &nbsp; <input type="checkbox" id="36" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg"> 
+                                    <a href="./books/3.pdf">   
+                                        <img id="32" class="imgBook" src="" /> 
+                                    </a> 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col 2 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="40" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="41" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="43">در حال مطالعه</label> &nbsp; <input type="checkbox" id="43" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "44" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="45">خوانده شده</label> &nbsp; <input type="checkbox" id="45" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="46">مورد علاقه</label> &nbsp; <input type="checkbox" id="46" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/4.pdf">
+                                        <img id="42" class="imgBook" src="" />  
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col 3 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="50" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="51" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="53">در حال مطالعه</label> &nbsp; <input type="checkbox" id="53" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "54" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="55">خوانده شده</label> &nbsp; <input type="checkbox" id="55" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="56">مورد علاقه</label> &nbsp; <input type="checkbox" id="56" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/5.pdf">
+                                        <img id="52" class="imgBook" src="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
+
+                    <!-- row 3 -->
+                    <div class="row m-3">
+                        <!-- col 1 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="60" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="61" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="63">در حال مطالعه</label> &nbsp; <input type="checkbox" id="63" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "64" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="65">خوانده شده</label> &nbsp; <input type="checkbox" id="65" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="66">مورد علاقه</label> &nbsp; <input type="checkbox" id="66" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/6.pdf">
+                                        <img id="62" class="imgBook" src="" /> 
+                                    </a> 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col 2 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="70" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="71" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="73">در حال مطالعه</label> &nbsp; <input type="checkbox" id="73" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "74" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="75">خوانده شده</label> &nbsp; <input type="checkbox" id="75" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="76">مورد علاقه</label> &nbsp; <input type="checkbox" id="76" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/7.pdf">
+                                        <img id="72" class="imgBook" src="" />
+                                    </a>  
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col 3 -->
+                        <div class="col p-3 border border-4 border-info rounded" style="background-color: white; margin-left: 1%; margin-right: 1%;">
+                            <div class="row">
+                                <div class="col">
+                                    عنوان: <label id="80" class="text-primary"></label> <br /><br />
+                                    نویسنده: <label id="81" class="text-success"></label> <br /><br />
+                                    <label class="form-check-label" for="83">در حال مطالعه</label> &nbsp; <input type="checkbox" id="83" class="readingBook form-check-input" onclick="addBook()"> <br />
+                                    <div class = "progress mt-2 mb-3 w-100">
+                                        <div id = "84" class = "progress progress-bar bg-info">
+
+                                        </div>
+                                    </div>
+                                    <label class="form-check-label" for="85">خوانده شده</label> &nbsp; <input type="checkbox" id="85" class="readBook form-check-input" onclick="addBook()"> <br /><br />
+                                    <label class="form-check-label" for="86">مورد علاقه</label> &nbsp; <input type="checkbox" id="86" class="favoriteBook form-check-input" onclick="addBook()">
+                                </div>
+                                <div class="col bookDivImg">
+                                    <a href="./books/8.pdf">
+                                        <img id="82" class="imgBook" src="" />  
+                                    </a>
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- شروع کدهای جاوااسکریپت -->
+        <script lang="javascript">
+
+            // localStorage.clear();
+
+            // description: کد زیر برای محاسبه زمان ماندگاری کاربر در سایت نوشته شده است
+            let entryTime = 0;
+
+            function nowDate() {
+                entryTime = Date.now();  // زمان ورود
+            };
+
+            function totalDurationTime() {
+                let exitTime = Date.now();  // زمان خروج
+                let duration = exitTime - entryTime;  // زمان ماندگاری در صفحه
+                
+                // دریافت زمان‌های قبلی از لوکال استوریج (در صورت موجود بودن)
+                let totalDuration = localStorage.getItem('totalDuration');
+                totalDuration = totalDuration ? parseInt(totalDuration) : 0;
+                
+                // جمع کردن زمان فعلی با زمان‌های قبلی
+                totalDuration += duration;
+
+                // ذخیره مجموع زمان ماندگاری در لوکال استوریج
+                localStorage.setItem('totalDuration', totalDuration);
+
+            };
+            var totalDuration = localStorage.getItem('totalDuration');
+            console.log('Total time spent: ' + totalDuration / 1000 + ' seconds');
+            // پایان کد محاسبه زمان ماندگاری کاربر در سایت
+
+
+            // description: وضعیت تعریف شده بودن یا نبودن آرایه ی کاربران را از متغیر سراسری دریافت کرده و در متغیر زیر قرار می دهیم
+            stateGlobalUsers = JSON.parse(localStorage.getItem('globalStateGlobalUsers'));
+            // description: متغیر وضعیت تعریف شده بودن آرایه ی سراسری کاربران را در یک متغیر سراسری قرار می دهیم
+            localStorage.setItem('globalStateGlobalUsers', JSON.stringify(stateGlobalUsers));
+            
+            /////////////////////////// 
+            
+            // description: درصورتیکه عنصر اول آرایه ی کاربر لاگین، خالی نباشد، کاربر را در صفحه ی باز شده نگهمیدارد و پیغام خوش آمدگویی نمایش می دهد
+            var loginUser = JSON.parse(localStorage.getItem('globalLoginUser'));
+            const parentWelcomeMessage = document.getElementById("parentWelcomeDiv");
+            if(loginUser[0] != null){
+                //نمایش متن خوش آمدگویی به کاربر وارد شده در بالای صفحه
+                const welcomeMessage = document.createElement('p');
+                welcomeMessage.innerHTML = loginUser[0].username + " عزیز، خوش آمدید...";
+                parentWelcomeMessage.appendChild(welcomeMessage);
+            }
+            else{
+                // description: اگر آرایه ی کاربر لاگین خالی باشد، از صفحه ی وارد شده سریع خارج شده و صفحه ی لاگین را نمایش می دهد
+                window.location.href = "./loginForm.html";
+                window.return(null);  // description: این خط برای جلوگیری از اجرای ادامه کد این صفحه بعد از ریدایرکت به صفحه اصلی نوشته شده است
+            }
+
+            ///////////////////////////            
+
+            //description: دریافت آرایه سراسری کاربران و ذخیره در یک آرایه برای دسترسی در این صفحه
+            const users = JSON.parse(localStorage.getItem('globalUsers'));
+            // description: کپی از آرایه ی کاربران در یک آرایه ی سراسری برای امکان دسترسی در صفحات دیگر
+            localStorage.setItem('globalUsers', JSON.stringify(users));
+
+            ///////////////////////////
+
+            // description: ایجاد لینک خروج کنار نام کاربر در بالای صفحه
+            const exitLink = document.createElement("a");
+            exitLink.innerHTML = "خروج";
+            parentWelcomeMessage.appendChild(exitLink);
+            exitLink.style.cursor = "pointer";
+            exitLink.classList = "link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover";
+            exitLink.style.marginRight = "1%";
+            
+            // description: این تابع برای خارج شدن کاربر از حالت لاگین و ریدایرکت به صفحه ی لاگین هنگام کلیک روی لینک خروج ایجاد شده می باشد
+            exitLink.addEventListener("click", function(event) {
+                event.preventDefault(); // جلوگیری از عملکرد پیش‌فرض (باز کردن لینک)
+                loginUser.length = 0;
+                // description: کد زیر آرایه ی آخرین کاربر ثبت نام کرده یا وارد شده را در یک آرایه سراسری کپی می کند
+                localStorage.setItem('globalLoginUser', JSON.stringify(loginUser));
+                window.location.href = "./loginForm.html";
+            });
+
+            ///////////////////////////
+
+            // description: کد زیر زمان خروج از صفحه اجرا می شود؛ اگر فیلد بخاطر بسپار عنصر اول آرایه ی کاربر لاگین نادرست باشد، هنگام خروج از صفحه محتوای آرایه ی کاربر لاگین را کاملا پاک می کند
+            function exitPage(){
+                if(loginUser[0].rememberme == false){
+                    if(totalDuration > 1800000){ // description: درصورت تیک نداشتن بخاطر داشته باش، اگر میزان ماندگاری در سایت بالاتر از نیم ساعت شد، متغیر لاگین یوزر را هنگام خروج از صفحه خالی کند که کاربر از سایت بصورت خودکار خروج پیدا کند
+                        loginUser.length = 0;
+                        // description: کد زیر آرایه ی آخرین کاربر ثبت نام کرده یا وارد شده را در یک آرایه سراسری کپی می کند
+                        localStorage.setItem('globalLoginUser', JSON.stringify(loginUser));
+                        totalDuration = 0;
+                        localStorage.setItem('totalDuration',JSON.stringify(totalDuration))
+                    }
+                }
+            }
+
+            ///////////////////////////
+
+            // description: تعریف آرایه اصلی کتاب ها
+                let books = [
+                    {
+                        "id": "0",
+                        "name": "کدنویسی تمیز",
+                        "author": "رابرت سی",
+                        "src": "./images/0.jpg",
+                        "href": "./books/0.pdf",
+                        "pages": "230",
+                    },
+                    {
+                        "id": "1",
+                        "name": "پایتون به زبان ساده",
+                        "author": "یونس ابراهیمی",
+                        "src": "./images/1.jpg",
+                        "href": "./books/1.pdf",
+                        "pages": "300",
+                    },
+                    {
+                        "id": "2",
+                        "name": "طراحی الگوریتم ها",
+                        "author": "عین‌الله جعفرنژاد",
+                        "src": "./images/2.jpg",
+                        "href": "./books/2.pdf",
+                        "pages": "650",
+                    },
+                    {
+                        "id": "3",
+                        "name": "Android Studio",
+                        "author": "عادله خجسته",
+                        "src": "./images/3.jpg",
+                        "href": "./books/3.pdf",
+                        "pages": "175",
+                    },
+                    {
+                        "id": "4",
+                        "name": "برنامه نویسی جاوا",
+                        "author": "الهام محمودآبادی",
+                        "src": "./images/4.jpg",
+                        "href": "./books/4.pdf",
+                        "pages": "155",
+                    },
+                    {
+                        "id": "5",
+                        "name": "جاوا به زبان ساده",
+                        "author": "یونس ابراهیمی",
+                        "src": "./images/5.jpg",
+                        "href": "./books/5.pdf",
+                        "pages": "270",
+                    },
+                    {
+                        "id": "6",
+                        "name": "بازی سازی در Scratch",
+                        "author": "محمود خاوریان",
+                        "src": "./images/6.jpg",
+                        "href": "./books/6.pdf",
+                        "pages": "287",
+                    },
+                    {
+                        "id": "7",
+                        "name": "سی شارپ به زبان ساده",
+                        "author": "یونس ابراهیمی",
+                        "src": "./images/7.jpg",
+                        "href": "./books/7.pdf",
+                        "pages": "240",
+                    },
+                    {
+                        "id": "8",
+                        "name": "برنامه نویسی سی ++",
+                        "author": "عین الله جعفرنژاد",
+                        "src": "./images/8.jpg",
+                        "href": "./books/8.pdf",
+                        "pages": "300",
+                    },
+                ]
+
+                // description: کپی از آرایه ی اصلی در آرایه ی سراسری برای امکان دسترسی در صفحات دیگر
+                localStorage.setItem('globalBooks', JSON.stringify(books));
+
+                ///////////////////////////
+
+                // نمایش کتاب ها در صفحه اصلی 
+                const challengeBooks = JSON.parse(localStorage.getItem('globalaChallengeBooks')); //*****************
+                // description: درج کردن آرایه اصلی در المان های صفحه اصلی برای نمایش کتاب ها با مشخصات
+                for (let i = 0; i < 9; i++) {
+                    document.getElementById(String(i)+String(0)).innerHTML = books[i].name;
+                    document.getElementById(String(i)+String(1)).innerHTML = books[i].author;
+                    document.getElementById(String(i)+String(2)).src = books[i].src;
+                    //description: حلقه ی زیر برای چاپ میزان مطالعه شده از کتاب هایی که در آرایه ی چالش هستند می باشد
+                    let j = 0;
+                    while(challengeBooks[j]){
+                        if(books[i].id == challengeBooks[j].id){
+                            //description: در دو خط زیر، میزان مطالعه ی کتاب به درصد حساب شده و به درصد چاپ می شود
+                            document.getElementById(String(i)+String(4)).attributes.ariaValueNow = ((challengeBooks[j].readNumber / challengeBooks[j].purposeNumber) * 100) + '%';
+                            document.getElementById(String(i)+String(4)).style.width = ((challengeBooks[j].readNumber / challengeBooks[j].purposeNumber) * 100) + '%';
+                            break;
+                        }
+                        j += 1;
+                    }
+                }
+
+                // description: دریافت آرایه های سراسری و قرار دادن در آرایه های محلی مربوطه برای استفاده در این صفحه
+                const GFavoriteBooks = JSON.parse(localStorage.getItem('globalFavoriteBooks'));
+                const GReadingBooks = JSON.parse(localStorage.getItem('globalReadingBooks'));
+                const GReadBooks = JSON.parse(localStorage.getItem('globalaReadBooks'));
+
+                ///////////////////////////
+ 
+                // تیک گذاشتن برای کتاب های مختلف در صفحه اصلی
+                //description: کد زیر برای تیک گذاشتن چک باکس در حال مطالعه ی کتاب هایی که در آرایه کتاب های در حال مطالعه قرار دارند ایجاد شده است
+                let readingCounter = 0;
+                while(GReadingBooks[readingCounter]){
+                    document.getElementById(String(GReadingBooks[readingCounter]) + String(3)).checked = true;
+                    readingCounter = readingCounter + 1;
+                }
+
+                //description: کد زیر برای تیک گذاشتن چک باکس خوانده شده ی کتاب هایی که در آرایه کتاب های خوانده شده قرار دارند ایجاد شده است
+                let readCounter = 0;
+                while(GReadBooks[readCounter]){
+                    document.getElementById(String(GReadBooks[readCounter]) + String(5)).checked = true;
+                    readCounter = readCounter + 1;
+                }
+
+                //description: کد زیر برای تیک گذاشتن چک باکس مورد علاقه ی کتاب هایی که در آرایه کتاب های مورد علاقه قرار دارند ایجاد شده است
+                let favoriteCounter = 0;
+                while(GFavoriteBooks[favoriteCounter]){
+                    document.getElementById(String(GFavoriteBooks[favoriteCounter]) + String(6)).checked = true;
+                    favoriteCounter = favoriteCounter + 1;
+                }    
+            
+            ///////////////////////////
+
+            // اضافه و حذف کردن کتاب ها در آرایه های مربوطه
+            // description: تابع اضافه و حذف کردن کتاب در آرایه های کتاب های درحال خواندن، خوانده شده، و مورد علاقه؛ که فقط آی دی کتاب را درآرایه مربوطه ذخیره میکند
+            function addBook(){
+                // description: دریافت آرایه های سراسری و قرار دادن در آرایه های محلی مربوطه برای استفاده در این صفحه
+                const favoriteBooks = JSON.parse(localStorage.getItem('globalFavoriteBooks'));
+                const readingBooks = JSON.parse(localStorage.getItem('globalReadingBooks'));
+                const readBooks = JSON.parse(localStorage.getItem('globalaReadBooks'));
+                // const challengeBooks = JSON.parse(localStorage.getItem('globalaChallengeBooks'));
+                
+                let indexReadingBook = 0;
+                let indexReadBook = 0;
+                let indexFavoriteBook = 0;
+
+                let checkBox = document.getElementById(event.srcElement.id);
+                let idBook = checkBox.id.charAt(0);
+                if(checkBox.classList == "readingBook form-check-input"){
+                    if(checkBox.checked == true){
+                        readingBooks.push(idBook);
+                    }
+                    else{
+                        var k = 0;
+                        while(readingBooks[k]){
+                            if(readingBooks[k] == idBook){
+                                indexReadingBook = k;
+                                break;
+                            }
+                            k += 1;
+                        }
+                        readingBooks.splice(k, 1);
+                    }
+                }
+                else if(checkBox.classList == "readBook form-check-input"){
+                    if(checkBox.checked == true){
+                        readBooks.push(idBook);
+                    }
+                    else{
+                        var k = 0;
+                        while(readBooks[k]){
+                            if(readBooks[k] == idBook){
+                                indexReadBook = k;
+                                break;
+                            }
+                            k += 1;
+                        }
+                        readBooks.splice(k, 1);
+                    }
+                }
+                else if(checkBox.classList == "favoriteBook form-check-input"){
+                    if(checkBox.checked == true){
+                        favoriteBooks.push(idBook);
+                    }
+                    else{
+                        var k = 0;
+                        while(favoriteBooks[k]){
+                            if(favoriteBooks[k] == idBook){
+                                indexfavoriteBook = k;
+                                break;
+                            }
+                            k += 1;
+                        }
+                        favoriteBooks.splice(k, 1);
+                    }
+                }
+
+                // description: کپی از آرایه های فرعی در آرایه های سراسری برای امکان دسترسی در صفحات دیگر
+                localStorage.setItem('globalFavoriteBooks', JSON.stringify(favoriteBooks));
+                localStorage.setItem('globalReadingBooks', JSON.stringify(readingBooks));
+                localStorage.setItem('globalaReadBooks', JSON.stringify(readBooks));
+
+                // description: کپی از مکان بعد از آخرین آرگومان هر آرایه در متغیرهای سراسری برای امکان دسترسی در صفحات دیگر
+                localStorage.setItem('globalIndexReadingBook', JSON.stringify(indexReadingBook));
+                localStorage.setItem('globalIndexReadBook', JSON.stringify(indexReadBook));
+                localStorage.setItem('globalIndexFavoriteBook', JSON.stringify(indexFavoriteBook));
+            }
+            
+        </script>
+    </body>
+</html>

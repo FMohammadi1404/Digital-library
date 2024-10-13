@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width,
+            initial-scale=1.0">
+            <title>Bootstrap5 Sidebar</title>
+        <link href=
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+        integrity=
+        "sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" 
+        crossorigin="anonymous">
+        <link rel="stylesheet" 
+        href="style.css">
+        <link rel="stylesheet" href=
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity=
+        "sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" />
+        
+        <!-- chart js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        
+    </head>
+    
+    <body class="bg-info" dir="rtl" style="font-family: b yekan;">
+                                    
+        <div class="container" align="center" style="height: 68vh;">
+            
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-12 col-md-10 col-lg-9 col-xl-9">
+                    <div onsubmit="registerUser(event)" action = "home.html" class="login-box login-css bg-white rounded-2 mt-5" style="padding-top: 0%; padding-bottom: 8%;">
+                        <div class="row justify-content-center pb-5 pt-2">
+                            <div class="col-md-6 text-center" style="margin-top:8%">
+                                <h2 class="heading-section hLogin text-info" style="font-weight: bolder;">ثبت نام کاربران</h2>
+                            </div>
+                        </div>
+                        <form name="loginform" method="post" class="login">
+                            <div class="form-group">
+                                <input type="text" placeholder="نام کاربری" name="username" id="username" class="form-control css-input" required />
+                                <!-- bottom line for validate: -->
+                                <div id="usernameError" class = "text-danger"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="رمز ورود" name="password" id="password" class="form-control css-input" required />
+                                <!-- bottom line for validate: -->
+                                <div id="passwordError" class = "text-danger"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="تکرار رمز ورود" name="rePassword" id="rePassword" class="form-control css-input" required />
+                                <!-- bottom line for validate: -->
+                                <div id="rePasswordError" class = "text-danger"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <button id = "register" type = "submit" value = "register" class="css-btn btn btn-primary" onclick="registerUser(event)">ثبت نام</button>
+                            </div>
+
+                            <!-- remember me -->
+                            <div class="form-group">
+                                <label for="rememberme" class="remember text-black m-4">
+                                    <input type="checkbox" name="rememberme" id="rememberme" class="checkbox-wrap" />
+                                    مرا به خاطر بسپار
+                                </label>
+                            </div>
+
+                            <!-- sign up -->
+                            <div class="form-group">
+                                <p class="remember text-black">قبلاً ثبت نام کرده‌اید؟ &nbsp<a href="loginForm.html">ورود</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        <script>
+
+            // localStorage.clear();
+
+            // این متغیر برای محاسبه زمان ماندگاری کاربر در سیستم تعریف شده است
+            var totalDuration = 0;
+
+            var globalLoginUser = new Array();
+            var globalStateGlobalUsers = new Array();
+            var loginUser = new Array();
+            var stateGlobalUsers = new Array();
+
+            //___________________________________________________________________________________________________
+            var reverseLoginUser = new Array();
+            reverseLoginUser = JSON.parse(localStorage.getItem('globalLoginUser'));
+            if(reverseLoginUser !== null){
+                loginUser = JSON.parse(localStorage.getItem('globalLoginUser'));
+            }
+            //___________________________________________________________________________________________________
+
+            localStorage.setItem('globalLoginUser', JSON.stringify(loginUser));
+
+            // //description: در شرط زیر بررسی می شود که اگر کاربر در حالت لاگین قرار داشت اگر صفحه ی ثبت نام را باز کرد، صفحه ثبت نام برای کاربر نمایش داده نشود و به صفحه اصلی ریدایرکت شود
+            if(loginUser[0] != null){
+                localStorage.setItem('globalLoginUser', JSON.stringify(loginUser));
+                window.location.href = "./home.html";
+                window.return(null);  // description: این خط برای جلوگیری از اجرای ادامه کد این صفحه بعد از ریدایرکت به صفحه اصلی نوشته شده است
+            }
+
+            //description: مربوط به آرایه کاربران
+            //description: تعریف آرایه ای برای ثبت نام کاربران
+            var users = [{"username": null, "password": null}];
+            users.pop(); //description: اولین خانه آرایه چون بلااستفاده است حذفش می کند
+                        
+            // description: وضعیت تعریف شده بودن یا نبودن آرایه ی کاربران را از متغیر سراسری دریافت کرده و در متغیر زیر قرار می دهیم
+            stateGlobalUsers = JSON.parse(localStorage.getItem('globalStateGlobalUsers'));
+
+            // description: در شرط زیر بررسی می کنیم که اگر متغیر وضعیت تعریف شده بودن یا نبودن آرایه ی سراسری کاربران مثبت بود عمل داخل شرط انجام شود
+            if(stateGlobalUsers == true){
+                //description: دریافت آرایه سراسری کاربران و ذخیره در یک آرایه برای دسترسی در این صفحه
+                users = JSON.parse(localStorage.getItem('globalUsers'));
+                // console.log(users);                                       
+            }
+            //////////////////////////////////////////////////////////////////////////////////////////
+
+            // description: مربوط به لاگین بودن یا نبودن
+            // description: آرایه زیر نام کاربری آخرین کاربری که ثبت نام کرده یا وارد شده درصورتیکه تیک بخاطر بسپار را فعال کرده باشد نگهداری می کند
+            var loginUser = [{"username": null, "remember": null}];
+            loginUser.pop(); //description: اولین خانه آرایه چون بلااستفاده است حذفش می کند
+            // description: کد زیر آرایه ی آخرین کاربر ثبت نام کرده یا وارد شده را در یک آرایه سراسری کپی می کند
+            localStorage.setItem('globalLoginUser', JSON.stringify(loginUser));
+            /////////////////////////////////////////////////////////////////////////////////////////          
+
+            // description: تعریف آرایه های فرعی مربوط به کتاب ها
+            const favoriteBooks = new Array();
+            const readingBooks = new Array();
+            const readBooks = new Array();
+
+            //____________________________________________________________________________________________________
+            var reseveReadingBooks = new Array();
+            reseveReadingBooks = JSON.parse(localStorage.getItem('globalReadingBooks'));
+            if(reseveReadingBooks !== null){
+                readingBooks = JSON.parse(localStorage.getItem('globalReadingBooks'));
+            }
+
+            var reseveReadBooks = new Array();
+            reseveReadBooks = JSON.parse(localStorage.getItem('globalReadBooks'));
+            if(reseveReadBooks !== null){
+                readBooks = JSON.parse(localStorage.getItem('globalReadBooks'));
+            }
+
+            var reseveFavoriteBooks = new Array();
+            reseveFavoriteBooks = JSON.parse(localStorage.getItem('globalFavoriteBooks'));
+            if(reseveFavoriteBooks !== null){
+                favoriteBooks = JSON.parse(localStorage.getItem('globalFavoriteBooks'));
+            }
+            //_____________________________________________________________________________________________________
+
+
+            // description: کپی از آرایه های فرعی در آرایه های سراسری برای امکان دسترسی در صفحات دیگر
+            localStorage.setItem('globalFavoriteBooks', JSON.stringify(favoriteBooks));
+            localStorage.setItem('globalReadingBooks', JSON.stringify(readingBooks));
+            localStorage.setItem('globalaReadBooks', JSON.stringify(readBooks));
+
+            // description: تعریف آرایه چالش کتاب با آرگومان های آی دی کتاب، تعداد صفحه هدف در ماه، تعداد صفحه خوانده شده در ماه، و تعداد صفحه باقیمانده در ماه جاری
+            var challengeBooks = [{"id": null, "purposeNumber": null, "readNumber": null, "remainderNumber": null}];
+            challengeBooks.pop(); //description: اولین خانه آرایه چون بلااستفاده است حذفش می کند
+            // description: قرار دادن آرایه کتاب های مورد چالش در یک آرایه سراسری
+            
+            //_____________________________________________________________________________________________________
+            var reseveChallengeBooks = new Array();
+            reseveChallengeBooks = JSON.parse(localStorage.getItem('globalChallengeBooks'));
+            if(reseveChallengeBooks !== null){
+                challengeBooks = JSON.parse(localStorage.getItem('globalChallengeBooks'));
+            }
+            //_____________________________________________________________________________________________________
+
+            localStorage.setItem('globalaChallengeBooks', JSON.stringify(challengeBooks));
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            
+            // description: تابع ثبت نام کاربران در آرایه ی کاربران                
+            function registerUser(event){
+                event.preventDefault(); //description: این دستور برای این استفاده شده که با زدن دکمه، فرم ارسال نشود و دستورات داخل این تابع اجرا شود
+                //قرار دادن المان های فرم ثبت نام در متغیر برای دسترسی در جاوااسکریپت
+                const inputUsername = document.getElementById("username");
+                const inputPassword = document.getElementById("password");
+                const inputRepassword = document.getElementById("rePassword");
+                
+                const usernameRegex = /[^A-Za-z0-9]/; //description: این رگیولار اکسپشن برای بررسی نام کاربری که فقط شامل حروف انگلیسی و اعداد باشد استفاده می شود
+                var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; //description: این عبارت باقاعده یا رگیولار اکسپشن برای بررسی وجود کاراکترهای کوچک و بزرگ لاتین، اعداد، و علامت های خاص در کنار هم در ورودی رمز ورود بکار می رود
+                
+                //قرار دادن دیوهای نمایش خطا در متغیر برای دسترسی در جاوااسکریپت
+                const usernameError = document.getElementById("usernameError");
+                const passwordError = document.getElementById("passwordError");
+                const rePasswordError = document.getElementById("rePasswordError");
+                    
+                //پاک کردن محتوای قبلی تگ های دیو نمایش دهنده خطاهای ورودی در هر بار اجرای تابع ثبت نام 
+                usernameError.textContent = "";
+                passwordError.textContent = ""; 
+                rePasswordError.textContent = "";                 
+
+                // description: شرط های بررسی خطاهای ورودی در فیلد نام کاربری
+                let errorState = false;
+                if(inputUsername.value.length < 6 || inputUsername.value.length > 12){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "نام کابری باید شامل 6 تا 12 کاراکتر باشد!";
+                    usernameError.appendChild(errorText); 
+                    errorState = true; 
+                }      
+                else if(usernameRegex.test(inputUsername.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = errorText.textContent + "نام کاربری فقط می تواند شامل حروف لاتین و اعداد باشد!";  
+                    usernameError.appendChild(errorText);
+                    errorState = true;
+                }
+                else if(checkQuotes(inputUsername.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ابتدا و انتهای ورودی نباید کاراکتر" + ' " ' + "وجود داشته باشد!";
+                    usernameError.appendChild(errorText); 
+                    errorState = true; 
+                }
+                else if(hasBackslash(inputUsername.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ورودی نباید از کاراکتر" + " \\ " + "استفاده شود!";
+                    usernameError.appendChild(errorText); 
+                    errorState = true; 
+                }
+                else if(containsHTML(inputUsername.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ورودی نباید از کدهای HTML استفاده شود!";
+                    usernameError.appendChild(errorText); 
+                    errorState = true; 
+                }
+
+
+                // description: شرط های بررسی خطاهای ورودی در فیلد رمز ورود
+                if(inputPassword.value.length < 8 || inputPassword.value.length > 20){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "رمز ورود باید شامل 8 تا 20 کاراکتر باشد!";
+                    passwordError.appendChild(errorText);  
+                    errorState = true;
+                } 
+                else if(passwordRegex.test(inputPassword.value) == false){
+                        var errorText = document.createElement("p");
+                        errorText.textContent = errorText.textContent + "رمز ورود باید شامل حروف کوچک و بزرگ لاتین، اعداد و کارکترهای خاص باشد!";  
+                        passwordError.appendChild(errorText);
+                        errorState = true;
+                } 
+                else if(checkQuotes(inputPassword.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ابتدا و انتهای ورودی نباید کاراکتر" + ' " ' + "وجود داشته باشد!";
+                    passwordError.appendChild(errorText); 
+                    errorState = true; 
+                }
+                else if(hasBackslash(inputPassword.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ورودی نباید از کاراکتر" + " \\ " + "استفاده شود!";
+                    passwordError.appendChild(errorText); 
+                    errorState = true; 
+                }
+                else if(containsHTML(inputPassword.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ورودی نباید از کدهای HTML استفاده شود!";
+                    passwordError.appendChild(errorText); 
+                    errorState = true; 
+                }
+                
+
+                // description: شرط های بررسی خطاهای ورودی در فیلد تکرار رمز ورود
+                if(inputPassword.value !== inputRepassword.value){
+                    const errorText = document.createElement("p");
+                    errorText.textContent = "رمز ورود با تکرار رمز ورود متفاوت است!";
+                    rePasswordError.appendChild(errorText);
+                    errorState = true;
+                }
+                else if(checkQuotes(inputRepassword.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ابتدا و انتهای ورودی نباید کاراکتر" + ' " ' + "وجود داشته باشد!";
+                    rePasswordError.appendChild(errorText); 
+                    errorState = true; 
+                }
+                else if(hasBackslash(inputRepassword.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ورودی نباید از کاراکتر" + " \\ " + "استفاده شود!";
+                    rePasswordError.appendChild(errorText); 
+                    errorState = true; 
+                }
+                else if(containsHTML(inputRepassword.value)){
+                    var errorText = document.createElement("p");
+                    errorText.textContent = "در ورودی نباید از کدهای HTML استفاده شود!";
+                    rePasswordError.appendChild(errorText); 
+                    errorState = true; 
+                }
+
+                
+        
+                let usernameExist = false;
+                if(errorState == false){
+                    if(users != null){
+                        let i = 0;
+                        while(users[i]){
+                            if(inputUsername.value == users[i].username){
+                                const errorText = document.createElement("p");
+                                errorText.textContent = "نام کاربری وارد شده قبلاً ثبت شده است!";
+                                usernameError.appendChild(errorText);
+                                usernameExist = true;
+                                break;
+                            }
+                            i += 1;
+                        }
+                    }
+                    if(usernameExist == false){ //description: اگر کاربر قبلا ثبت نام نکرده بود
+                        const rememberUserCheckbox = document.getElementById("rememberme");
+                        if(rememberUserCheckbox.checked == true){
+                            users.push({"username": inputUsername.value, "password": inputPassword.value});
+                            loginUser.length = 0; //description: محتوای آرایه آخرین کاربر وارد شده یا ثبت نام کرده را پاک می کند
+                            loginUser.push({"username": inputUsername.value, "rememberme": true});                        
+                        }
+                        else{
+                            users.push({"username": inputUsername.value, "password": inputPassword.value});
+                            loginUser.length = 0; //description: محتوای آرایه آخرین کاربر وارد شده یا ثبت نام کرده را پاک می کند
+                            loginUser.push({"username": inputUsername.value, "rememberme": false}); 
+                            totalDuration = 0; // این متغیر برای محاسبه زمان ماندگاری کاربر در سیستم استفاده می شود
+                            localStorage.setItem('totalDuration', JSON.stringify(totalDuration));                       
+                        }
+                        stateGlobalUsers = true;
+                        
+                        // description: کپی از آرایه ی کاربران در یک آرایه ی سراسری برای امکان دسترسی در صفحات دیگر
+                        localStorage.setItem('globalUsers', JSON.stringify(users));
+                        
+                        // description: متغیر وضعیت تعریف شده بودن آرایه ی سراسری کاربران را در یک متغیر سراسری قرار می دهیم
+                        localStorage.setItem('globalStateGlobalUsers', JSON.stringify(stateGlobalUsers));
+                        
+
+                        // description: کد زیر آرایه ی آخرین کاربر ثبت نام کرده یا وارد شده را در یک آرایه سراسری کپی می کند
+                        localStorage.setItem('globalLoginUser', JSON.stringify(loginUser));                  
+                        
+                        window.location.href = "./home.html";
+                    }
+                }
+            }
+
+            // description: توابع بررسی ورودی ها از لحاظ امنیتی
+            // description: تابع بررسی وجود کاراکتر " در اول و آخر ورودی
+            function checkQuotes(input) {
+                return input.startsWith('"') && input.endsWith('"');
+            }
+
+            //description: تابع بررسی وجود کاراکتر \ در ورودی
+            function hasBackslash(input) {
+                let backslashPattern = /\\/;
+                return backslashPattern.test(input);
+            }
+
+            // description: تابع بررسی وجود کدهای اچ تی ام ال در ورودی
+            function containsHTML(input) {
+                // الگوی ساده برای تشخیص تگ‌های اچ تی ام ال
+                let htmlPattern = /<[^>]*>/;
+                return htmlPattern.test(input);
+            }
+        </script>
+    </body>
+</html>
